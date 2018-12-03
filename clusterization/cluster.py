@@ -2,7 +2,6 @@ from sklearn.cluster import KMeans
 from processing.processing import PreProcessing
 import csv
 from sklearn.feature_extraction.text import TfidfVectorizer
-import matplotlib.pyplot as plt
 
 
 class Cluster():
@@ -36,7 +35,7 @@ class Cluster():
         min = 999999999999999999
 
         for i in range(1, 11):
-            kmeans = KMeans(n_clusters=i, random_state=0)
+            kmeans = KMeans(n_clusters=i, init='k-means++', random_state=0)
             kmeans.fit(frases_vectorizer)
             wcss.append(kmeans.inertia_)
 
@@ -61,9 +60,10 @@ class Cluster():
 
         return qtd_cluster
 
+    # EXECUTA CLUSTERIZAÇÂO K-MEANS
     def clusterizar(self):
         print("---------- CARREGAR DADOS ----------")
-        frases,original = self.getDados()
+        frases, original = self.getDados()
         print("------------------------------------")
 
         print("---------- Vetorizar DADOS ----------")
@@ -75,7 +75,7 @@ class Cluster():
         print("-------------------------------------")
 
         print("---------- CLUSTER K-MEANS ----------")
-        km = KMeans(n_clusters=qtd_cluster)
+        km = KMeans(n_clusters=qtd_cluster, init='k-means++')
         km.fit_predict(frases_vectorizer)
         print("-------------------------------------")
 
